@@ -5,13 +5,19 @@ using System.Runtime.CompilerServices;
 
 namespace RefactorKata
 {
-    internal class Program
+    internal partial class Program
     {
         private static void Main(string[] args)
         {
             var products = GetProducts();
-            \
-            private static IEnumerable<Product> GetProducts()
+
+            foreach (var product in products)
+            {
+                Console.WriteLine(product.Name);
+            }
+        }
+
+        private static IEnumerable<Product> GetProducts()
         {
             using (var conn =
                 new SqlConnection("Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;"))
@@ -31,18 +37,10 @@ namespace RefactorKata
                     var prod = new Product {Name = reader["Name"].ToString()};
                     products.Add(prod);
                 }
-                conn.Dispose();
+               
                 Console.WriteLine("Products Loaded!");
-                foreach (var product in products)
-                {
-                    Console.WriteLine(products.Count);
-                }
+                return products;
             }
-        }
-
-        public class Product
-        {
-            public string Name { get; set; }
         }
     }
 }
